@@ -4,7 +4,7 @@ MKDocs website for CACAO Workshop, IT Summit 2024
 
 TBD: pretty much everything, set up action, set GH Pages to DNS, build website, add pages, convert all `rst` materials and update
 
-https://cacao-itsummit2024.cyverse.org/
+https://cacao-itsummit2024.cyverse.ai/
 
 # Development
 
