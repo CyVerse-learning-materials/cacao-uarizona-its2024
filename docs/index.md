@@ -4,29 +4,22 @@
 
 ![banner](assets/cc_banner_01.png)
 
-## [:material-run-fast: Go to 8/7/2024 Workshop Agenda](getting_started/schedule.md)
+## [:material-run-fast: Go to Workshop Agenda](getting_started/schedule.md)
 
-Welcome to our documentation on containers and orchestration in academic research and education.
+Welcome to our CACAO Workshop for the University of Arizona IT Summit 2024
 
-## Basic Container Camp
+## Agenda
 
-### Docker Containers for Scientific Research
-- [Introduction to Docker](docker/intro.md)
-- [Finding the Right Container](docker/registry.md)
-
-### Containers on High Performance and High Throughput Computing
-- [Basics of SingularityCE](singularity/intro.md)
-- [Using SingularityCE on HPC and HTC](singularity/advanced.md)
-
-## Cloud Native Camp
-
-### Orchestration
-- [Container Orchestration with Kubernetes](orchestration/k8s.md)
-
-### Infrastructure as Code
-- [Infrastructure as Code with Hashicorp Terraform](orchestration/terra.md)
-- [CyVerse's Cloud Automation & Continuous Analysis Orchestration (CACAO)](orchestration/cacao.md)
-
+| Time (MST/AZ)| Activity | Instructor | Notes | 
+|-----------|----------|------------|-------|
+| 1:00p | Introductions | All | |
+| 1:15p | Getting Setup | All | |
+| 1:30p | [Introduction to Terraform :material-github:](../cacao/terra.md) | Frady | |
+| 2:00p | [Importing a Terraform template into CACAO :material-docker:](../cacao/cacao_terra.md) | Skidmore | |
+| 2:10p | Break | |
+| 2:20p | [Using CACAO :material-docker:](./cacao/cacao.md)  | Xu | |
+| 2:40p | [CACAO Use Cases :material-docker:](../cacao/cacao.md) | Cosi | | 
+| 2:45p | Conclusion: Comments and questions | | |
 
 !!! Success "Learning Objectives"
 

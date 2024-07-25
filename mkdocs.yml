@@ -1,11 +1,11 @@
 docs_dir: docs/
 repo_name: 'CyVerse-learning-materials/cacao-uarizona-its2024'
-repo_url: 'https://github.com/CyVerse-learning-materials/cacao-uarizona-its2024'
+repo_url: 'https://github.com/CyVerse-learning-materials/ccacao-uarizona-its2024'
 
 site_name: 'CACAO Workshop - IT Summit 2024'
-site_description: 'Documentation for container related workshop.'
+site_description: 'CACAO Workshop for IT Summit 2024'
 site_author: 'CyVerse Team'
-site_url: 'https://cacao-itsummit2024.cyverse.org'
+site_url: 'https://cacao-itsummit2024.cyverse.ai'
 
 edit_uri: edit/mkdocs/docs
 
@@ -20,32 +20,10 @@ nav:
     - 'Code of Conduct': getting_started/code_conduct.md
     - 'Schedule': getting_started/schedule.md
     - 'Pre-Camp Setup': getting_started/setup.md
-  - 'Docker':
-    - 'Introduction to Docker': docker/intro.md
-    - 'Finding the right container': docker/registry.md
-    - 'Building Docker Containers': docker/build.md
-    - 'Advanced use of Docker': docker/advanced.md
-    - 'GitHub Actions and Docker': docker/actions.md
-    - 'Running multi-container Applications': docker/compose.md 
-  - 'Singularity':
-    - 'Introduction to Singularity': singularity/intro.md
-    - 'Advanced use of Singularity': singularity/advanced.md
-    - 'Using Singularity on HPC/HTC': singularity/hpc.md
-  - 'Orchestration':
-    - 'Introduction to Kubernetes': orchestration/k8s.md
-    - 'Advanced use of Kubernetes': orchestration/advk8s.md 
-    - 'Introduction to Terraform': orchestration/terra.md
-    - 'Advanced use of Terraform': orchestration/advterra.md
-    - 'CyVerse CACAO Interface': orchestration/cacao.md
-    - 'CyVerse CACAO Terraform CLI': orchestration/cacao_terra.md
-    - 'Manage private container registry': orchestration/registry.md
-  - 'Cloud Services':
-    - 'Jetstream-2': cloud/js2.md
-    - 'OpenStack': cloud/openstack.md
-    - 'GitHub CodeSpaces': cloud/codespaces.md
-    - 'Amazon Web Services': cloud/aws.md
-    - 'Azure': cloud/azure.md
-    - 'Google Cloud Platform': cloud/gcp.md
+  - 'CACAO':
+    - 'Introduction to Terraform': cacao/terra.md
+    - 'Importing a Terraform Template into CACAO': cacao/cacao_terra.md
+    - 'CyVerse CACAO Interface': cacao/cacao.md
   - 'Useful Resources':
     - 'VSCode': resources/vscode.md
     - 'Docker': resources/docker.md
