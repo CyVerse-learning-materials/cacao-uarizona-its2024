@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine-<your-student-username>
+spec:
+  containers:
+  - name: mypod
+    image: alpine:3.14
+    resources:
+      limits:
+        memory: 100Mi
+        cpu: 100m
+      requests:
+        memory: 100Mi
+        cpu: 100m
+    command: ["sh", "-c", "sleep infinity"]
