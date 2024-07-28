@@ -4,8 +4,6 @@
 
 ![banner](assets/cc_banner_01.png)
 
-## [:material-run-fast: Go to Workshop Agenda](getting_started/schedule.md)
-
 Welcome to our CACAO Workshop for the University of Arizona IT Summit 2024
 
 ## Agenda
@@ -19,28 +17,23 @@ Welcome to our CACAO Workshop for the University of Arizona IT Summit 2024
 | 2:10p | Break | |
 | 2:20p | [Using CACAO :material-docker:](./cacao/cacao.md)  | Xu | |
 | 2:40p | [CACAO Use Cases :material-docker:](../cacao/cacao.md) | Cosi | | 
-| 2:45p | Conclusion: Comments and questions | | |
+| 2:45p | Conclusion: Comments and questions | All | |
 
 !!! Success "Learning Objectives"
 
-        After completing these two paired workshops, you should be able to:
+        After completing this workshop, you should be able to:
         
-        * Explain why containers and orchestration are used in research computing
-        * Create your own containers and deploy your own orchestrated frameworks
-        * Understand how and when to use containers and IaC in your daily work
-
-        You will also leave with
-
-        - Understanding of how to use the most powerful public research computing infrastructure in the world via [ACCESS-CI](https://access-ci.org).
-        - The ability to launch and manage distributed resources using IaC templates on commercial (AWS, GCloud, Azure) or public research (OpenStack) clouds.
-
-        - Insight into commercial cloud services, their costs, and how to best utilize them for scientific research.
+        * Explain why Terraform is used for Infrastructure-as-code templates
+        * Explain why CACAO makes it easy  to deploy Terraform templates
+        * Import your own terraform template into CACAO
+        * Understand how to create cloud resources using templates imported into the system
+        * Describe use cases for CACAO
 
 ---
 
 **Funding and Citations:**
 
-CyVerse is generously funded by the National Science Foundation [![NSF](assets/nsf.png){width="25"}](https://nsf.gov){target=_blank}. 
+CyVerse is generously funded by the National Science Foundation [![NSF](assets/nsf.png){width="25"}](https://nsf.gov){target=_blank}.
 
 Here are our award numbers:
 

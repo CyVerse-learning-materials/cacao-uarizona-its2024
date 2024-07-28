@@ -18,8 +18,7 @@ nav:
   - 'Home': 
     - 'Home': index.md 
     - 'Code of Conduct': getting_started/code_conduct.md
-    - 'Schedule': getting_started/schedule.md
-    - 'Pre-Camp Setup': getting_started/setup.md
+    - 'Workshop Setup': getting_started/setup.md
   - 'CACAO':
     - 'Introduction to Terraform': cacao/terra.md
     - 'Importing a Terraform Template into CACAO': cacao/cacao_terra.md
