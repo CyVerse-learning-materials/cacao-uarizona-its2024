@@ -34,16 +34,16 @@ Please login to verify that your ACCESS credentials work with the CACAO test sit
 
 The CyVerse CACAO CLI is a command line tool interact with the CyVerse CACAO API. The first step is the install the cli on your local machine or to a vm.
 
-- [Linux download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/88735155/download)
-- [Windows download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/88735261/download)
-- [MacOS (Intel) download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/88735323/download)
-- [MacOS (ARM) download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/88735401/download)
+- [Linux download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/141329166/download)
+- [Windows download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/141329227/download)
+- [MacOS (Intel) download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/141329262/download)
+- [MacOS (ARM) download for CACAO CLI](https://gitlab.com/cyverse/cacao/-/package_files/141329290/download)
 
 If you're using a VM provided by the workshop or a Linux system, you can use these instructions to install the CACAO CLI.
 
 1. If necessary, obtain a shell or terminal on the Linux system you wish to install the CACAO CLI.
 2. Copy link for "Linux download for CACAO CLI" from above.
-3. `curl https://gitlab.com/cyverse/cacao/-/package_files/88735155/download --output cacao.zip`
+3. `curl https://gitlab.com/cyverse/cacao/-/package_files/141329166/download --output cacao.zip`
 4. `unzip cacao.zip # this will create a file cacao_linux_amd64`
 5. `sudo mv cacao_linux_amd64 /usr/local/bin/cacao # optional; otherwise, add it into your path`
 6. `chmod +x /usr/local/bin/cacao`
