@@ -4,7 +4,7 @@
 
 This tutorial will guide you through the process importing a basic terraform template into CACAO.
 
-A more detailed version of this tutorial can be found here [https://docs.jetstream-cloud.org/ui/cacao/import_terraform_template/](https://docs.jetstream-cloud.org/ui/cacao/import_terraform_template/){target=_blank}
+A more detailed version of this tutorial can be found here [https://docs.jetstream-cloud.org/ui/cacao/cacao_cli_import_terraform_template/](https://docs.jetstream-cloud.org/ui/cacao/cacao_cli_import_terraform_template/){target=_blank}
 
 By the end of this tutorial, you will have imported a terraform template into CACAO and deployed it using the UI to confirm that it works.
 
@@ -21,10 +21,8 @@ One of CyVerse's test deployments for CACAO will be used for this exercise so th
 
 The url for the CACAO site that we will use today is [https://cacao.cyverse.ai](https://cacao.cyverse.ai){target=_blank}
 
-Please login to verify that your ACCESS credentials work with the CACAO test site.
-!!!+ warn
-    For the workshop, use the "ACCESS CI (XSEDE)" identity provider when you login.
-    ![](../assets/cacao/access-ci-select-identity-provider2.png)
+Please login to verify that you have access to the CACAO test site.
+![](../assets/cacao/cilogon-select-idp-ua.png)
 
 1. 
 ## Installation of the CyVerse CACAO CLI
