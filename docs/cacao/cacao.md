@@ -40,6 +40,8 @@ You will see a box pop up where you can select the cloud and cloud credential to
 You will then name the deployment, select the number of instances and size of instances.
 For now, stick with `us-east-1` or `us-west-2` region, `ubuntu-minimal/images/hvm-ssd/ubuntu-jammy-22.04-amd64-minimal-20240729` image and 1 instance of `t2.micro`. You can name it whatever you want.
 
+![](../assets/cacao/cacao-deployment-wizard-aws-single-image.png)
+
 ### Access Deployment
 
 Once you have submitted your deployment, you can see it on the Deployments page. It will be in the "Starting" status for a few minutes. Once it is running, you can click on it to see details about it and to access it.

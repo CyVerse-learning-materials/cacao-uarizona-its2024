@@ -154,11 +154,11 @@ cacao template create git https://github.com/cyverse/cacao-example-templates.git
 4. Select the "edwin's hello world example"/"student0001-hello-world" template. (Note: the subname of the template will be different for you.)
 5. Click the "Next" button.
 6. Fill out the Parameters
-    1. `Choose Region`: leave as default
+    1. `Choose Region`: stick with `us-east-1` or `us-west-2` region
     2. `Instance name`: enter your student name (e.g. student0001) + date e.g. `student0001-2021-08-18`
-    3. `Image`: select "Featured-Ubuntu22"
-    4. `Size`: leave as default
-![](../assets/cacao/access-ci-select-identity-provider2.png)
+    3. `Image`: select `ubuntu-minimal/images/hvm-ssd/ubuntu-jammy-22.04-amd64-minimal-20240729`
+    4. `Size`: select `t2.micro`
+![](../assets/cacao/cacao-deployment-wizard-aws-single-image.png)
 7. Click the "Next" button.
 8. After reviewing the summary, click the "Submit" button.
 9. You will be listed on the "Deployments" page. You can click on the deployment to see the status of the deployment.
