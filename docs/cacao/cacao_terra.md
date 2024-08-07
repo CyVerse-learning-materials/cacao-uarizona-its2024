@@ -48,7 +48,7 @@ If you're using a VM provided by the workshop or a Linux system, you can use the
 
 ## Reviewing the Terraform template we will use to import
 
-We will be using [https://github.com/cyverse/cacao-terraform-hello-world](https://github.com/cyverse/cacao-terraform-hello-world){target=_blank} for this tutorial.
+We will be using [https://github.com/cyverse/cacao-example-templates.git](https://github.com/cyverse/cacao-example-templates.git){target=_blank} for this tutorial.
 
 You will find a directory called `.cacao` at the root of the template and two files:
 
@@ -117,10 +117,10 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
 
 Here are the values to enter for each:
 
-- `<source url>`: `https://github.com/cyverse/cacao-terraform-hello-world.git`
+- `<source url>`: `https://github.com/cyverse/cacao-example-templates.git`
 - `<template name>`: "<your student name>-hello-world" (e.g. student0001-hello-world)
 - `<git branch>`: `main`
-- `<path to template>`: `.`
+- `<path to template>`: `terraform-aws-itsummit2024`
 
 !!!+ warn
     If you forked the template, you will need to use your forked url.
@@ -128,7 +128,7 @@ Here are the values to enter for each:
 Putting this all together, your command will look similar to this: 
 
 ```bash
-cacao template create git https://github.com/cyverse/cacao-terraform-hello-world.git  student0001-hello-world --branch main --path .
+cacao template create git https://github.com/cyverse/cacao-example-templates.git  student0001-hello-world --branch main --path terraform-aws-itsummit2024
 ```
 
 ???+ success "Expected Response"
