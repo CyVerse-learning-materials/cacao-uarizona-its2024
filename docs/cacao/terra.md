@@ -10,44 +10,35 @@
 
 ## Overview
 
-This basic tutorial will guide you through setting up a Terraform project and deploying virtual machines (VMs) as infrastructure on OpenStack Cloud.  
+This basic tutorial will guide you through setting up a Terraform project and deploying virtual machines (VMs) as infrastructure on AWS Cloud.  
 
 !!! success "Goals"
 
-    :material-play: Understand orchestration for deployment to OpenStack cloud (Jetstream2)
+    :material-play: Understand orchestration for deployment to AWS Cloud
 
     :material-play: Understand the benefits of Terraform
 
-    :material-play: Ability to perform basic deployments on OpenStack using Terraform
+    :material-play: Ability to perform basic deployments on AWS using Terraform
 
-    :material-play: Ability to perform provisioning of deployed OpenStack resources through Terraform
+    :material-play: Ability to perform provisioning of deployed AWS resources through Terraform
 
     ??? Failure "Things we won't cover"
 
-        :material-play: OpenStack API
+        :material-play: AWS 
         
         :material-play: All of Terraform's features
 
 ## Prerequisites
 
-* Basic understanding of [:simple-openstack: OpenStack](https://www.openstack.org/){target=_blank} and VMs
+* Basic understanding of [AWS](https://aws.amazon.com/){target=_blank} and VMs
 
-* Access to an OpenStack cloud (we will use [Jetstream2](https://docs.jetstream-cloud.org/){target=_blank})
-
-* [:simple-terraform: Terraform](https://developer.hashicorp.com/terraform/downloads){target=_blank} installed on your local machine
-
-* Optional: request your own allocation to Jetstream2 on [NSF ACCESS-CI](https://allocations.access-ci.org/){target=_blank}
+* [:simple-terraform: Terraform](https://developer.hashicorp.com/terraform/downloads){target=_blank} installed on your local machine or use a VM provided by the workshop
 
 !!! success "Outcomes"
 
     By the end of this tutorial, you will 
     
-    :material-play: have created SSH keypair
-
-    :material-play: generated an `*-openrc.sh` file from OpenStack
-
-    :material-play: started, stopped, and destroyed a Terraform deployment on an OpenStack Cloud
-
+    :material-play: started, stopped, and destroyed a Terraform deployment on an AWS Cloud
 
 ??? Info "Terminology"
 
@@ -65,25 +56,15 @@ This basic tutorial will guide you through setting up a Terraform project and de
 
     **:material-play: Terraform** - is an infrastructure as code tool that lets you build, change, and version cloud and on-prem resources safely and efficiently
 
-### Getting onto :simple-openstack: OpenStack Cloud
+## Cloning the repository
 
-??? Info "What is OpenStack?"
+You can clone the repository with the code. We will use the `terraform-aws-itsummit2024` subdirectory for this exercise. You'll want to cd into that directory
 
-    [:simple-openstack: OpenStack](https://www.openstack.org/){target=_blank} is an open source cloud computing infrastructure software project and is one of the three most active open source projects in the world.
-
-    OpenStack clouds are managed by individuals and institutions on their own bare-metal hardware. 
-
-[![ACCESS](../assets/terraform/access-logo.svg){width=200}](https://allocations.access-ci.org/){target=_blank} 
-
-If you do not have an account, go to [https://allocations.access-ci.org/](https://allocations.access-ci.org/){target=_blank} and begin the process by requesting an "Explore" start-up allocation. 
-
-ACCESS is the NSF's management layer for their research computing network (formerly called TerraGrid and XSEDE) which includes high performance computing, high throughput computing, and research clouds like Jetstream2. 
-
-[![JS2](../assets/terraform/js2-logo.png){width=200}](https://docs.jetstream-cloud.org/general/access/){target=_blank} 
-
-Jetstream2 is a public research cloud which uses OpenStack as its management layer. 
-
-CyVerse is developing a User Interface for Jetstream2 called [CACAO (Cloud Automation & Continuous Analysis Orchestration)](https://cacao.jetstream-cloud.org/help){target=_blank}. Beneath its hood is Terraform. CACAO can also be used from the CLI (which we will [show in a later lesson](./cacao_terra.md)).
+```bash
+git clone https://github.com/cyverse/cacao-example-templates.git
+cd cacao-example-templates
+cd terraform-aws-itsummit2024 # you want to cd into the directory without the '-cacao'
+```
 
 ## :simple-terraform: Terraform installation
 
@@ -174,131 +155,6 @@ Global options (use these before the subcommand, if any):
   -version      An alias for the "version" subcommand.
 ```
 
-## Generate an OpenStack Credential for Terraform
-
-Log into OpenStack's Horizon Interface
-
-**Step 1** Log into OpenStack's Horizon Interface and create application credentials
-
-Generate an `openrc.sh` file in Jetstream2 Horizon Interface ([https://js2.jetstream-cloud.org](https://js2.jetstream-cloud.org)), 
-
-Select the "Identity" then "Application Credentials" option in the menu (left side)
-
-Select "+ Create Application Credential" button on right
-
-![create application credential](../assets/terraform/create_app_cred.png)
-
-Give your new credentials a name and description, leave most of the fields blank
-
-![create description application credential](../assets/terraform/description_app_cred.png)
-
-Download the new crededential `openrc.sh` file to your local
-
-!!! Tip "**Important**" 
-    
-    Do not close the Application Credentials window without copying the `secret` or downloading the `openrc.sh` file.
-
-    ![download credential](../assets/terraform/download_app_cred.png)
-
-### Create an SSH keypair with OpenStack
-
-??? Tip "Creating a SSH key"
-
-    To create an SSH key on an Ubuntu 22.04 terminal, you can follow these steps:
-
-    **Step 1:** Open your terminal and type the following command to generate a new SSH key pair:
-
-    ```bash
-    ssh-keygen -t rsa -b 4096
-    ```
-
-    **Step 2:** When prompted, press "Enter" to save the key in the default location, or enter a different filename and location to save the key.
-
-    Enter a passphrase to secure your key. This passphrase will be required to use the key later.
-
-    Once the key is generated, you can add it to your SSH agent by running the following command:
-
-    ```bash
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa
-    ```
-
-    **Step 3:** Copy the public key to your remote server by running the following command, replacing "user" and "server" with your username and server address:
-
-    ```bash
-    ssh-copy-id <user>@<server-ip>
-    ```
-
-    **create_ssh_script.sh:**
-
-    ```bash
-    #!/bin/bash
-
-    echo "Generating SSH key pair..."
-    ssh-keygen -t rsa -b 4096
-
-    echo "Adding key to SSH agent..."
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa
-
-    read -p "Enter your remote server username: " username
-    read -p "Enter your remote server IP address: " server
-
-    echo "Ready to copy your new public key to a remote server:"
-
-    ssh-copy-id username@server
-
-    echo "SSH key setup complete!"
-    ```
-
-    Save the script to a file, make it executable with the following command:
-
-    ```bash
-    chmod +x create_ssh_script.sh
-    ```
-
-    run it with the following command:
-
-    ```bash
-    ./create_ssh_script.sh
-    ```
-
-Check to make sure you have a public key in the `~/.ssh/` directory, it should have the extension `.pub`
-
-```bash
-ls ~/.ssh/
-```
-
-Create the keypair to OpenStack
-
-```bash
-openstack keypair create --public-key ~/.ssh/id_rsa.pub tswetnam-terraform-key
-```
-
-You can now check in OpenStack for the new keypair here: [https://js2.jetstream-cloud.org/project/key_pairs](https://js2.jetstream-cloud.org/project/key_pairs){target=_blank}
-
-## Initialize your Terraform project
-
-Create a new project folder for our configuration files.
-
-```bash
-mkdir ~/terraform
-```
-
-Copy the `openrc.sh` file you downloaded from OpenStack into the new folder.
-
-```bash
-cp *-openrc.sh ~/terraform/
-```
-
-Change Directory into your new `terraform/` folder and `source` the `openrc.sh` file to create its environmental variables locally.
-
-By sourcing this file, you avoid placing sensitive information about yourself into your code. 
-
-```bash
-source *-openrc.sh
-```
-
 ### Configuration files
 
 Terraform code is written in HCL (Hashicorp Configuration Language), and its configuration files typically end in the `.tf` file extension. 
@@ -314,226 +170,14 @@ An example for file organization of a terraform project might involve:
 ```css
 terraform-project/
 ├── main.tf
-├── variables.tf
-├── outputs.tf
-├── instances.tf
-├── security.tf
-└── modules/
-    ├── network/
-    │   ├── main.tf
-    │   ├── variables.tf
-    │   └── outputs.tf
-    └── compute/
-        ├── main.tf
-        ├── variables.tf
-        └── outputs.tf
+├── inputs.tf
 ```
 
 **:simple-terraform: Main Configuration File (`main.tf`):** - contains the primary infrastructure resources and configurations for virtual machines, networks, and storage.
 
-**:simple-terraform: Security File (`security.tf`):** - contains optional security group details for instances.
-
-**:simple-terraform: Variables File (`variables.tf`):** - defines all the input variables used in the configuration. Declare variables with default values or leave them empty for required user input. Include descriptions for each variable to provide context.
-
-**:simple-terraform: Instances File (`instances.tf`):** - provisions the Instance flavor and IP networking of the VMs
-
-**:simple-terraform: Outputs File (`outputs.tf`):** - defines the outputs Terraform displays after applying the Main and Variables configuration. Includes: IP addresses, DNS names, or information for resources.
-
-##### Other optional files
-
-**:simple-terraform: Provider Configuration File (`provider.tf`):** - includes the provider(s) used in the configuration, such as OpenStack (on commerical cloud: Amazon Web Services (AWS), Azure, or Google Cloud Platform(GCP)) along with their authentication and regional settings.
+**:simple-terraform: Inputs File (`inputs.tf`):** - contains inputs variables to terraform
 
 **:simple-terraform: Modules and Reusable Configurations:** - create separate `.tf` files for reusable modules and configurations. Reuse across multiple projects or within the same project on multiple VMs.
-
-## Terraform configuration files.
-
-Create the `main.tf` file in the `~/terraform/` directory
-
-#### :simple-terraform: `main.tf`
-
-```bash
-terraform {
-  required_version = ">= 0.14.0"
-  required_providers {
-    openstack = {
-      source = "terraform-provider-openstack/openstack"
-      version = ">=1.47.0"
-    }
-  }
-}
-
-provider "openstack" {
-  auth_url = "https://js2.jetstream-cloud.org:5000/v3/"
-  region = "IU"
-}
-```
-
-The `main.tf` file has just the basics for calling out to an OpenStack provider - we created the necessary configurations for this in the prior steps by sourcing the `*-openrc.sh` file and running `terraform init`. 
-
-
-#### :simple-terraform: `variables.tf`
-
-Create `variables.tf`, it can also be called `inputs.tf` 
-
-Here you need to go back to OpenStack and get a couple of additional variables:
-
-`vm_number` - defines the number of VMs you wish to launch
-
-`public_key` - you need the name of your paired SSH key that you generated in the [prior step](#create-an-ssh-keypair-with-openstack)
-
-`image_name` - select the name of a featured or unique image you wish to launch.
-
-```bash
-variable "vm_number" {
-  # creates a single VM
-  # replace with a larger number to launch more than one VM
-  default = "1"
-}
-
-variable "public_key" {
-  # replace this with the name of the public ssh key you uploaded to Jetstream 2
-  # https://docs.jetstream-cloud.org/ui/cli/managing-ssh-keys/
-  default = "tswetnam-terraform-key"
-}
-
-variable "image_name" {
-  # replace this with the image name of the ubuntu iso you want to use
-  # https://js2.jetstream-cloud.org/project/images 
-  default = "Featured-Ubuntu20"
-}
-
-variable "network_name" {
-  # replace this with the id of the public interface on JS2 in Project / Network / Networks / public
-  # https://js2.jetstream-cloud.org/project/networks/ 
-  default = "auto_allocated_network"
-}
-```
-
-#### :simple-terraform: `security.tf`
-
-This file produces two distinct security groups, `terraform_ssh_ping` creates a group with `ssh` access and `ping`, `terraform_tcp_1` creates a group which opens the HTTP (80, 8080), HTTPS (443) ports for connecting a browser based service.
-
-```bash
-################
-#Security section
-################
-
-# Creating Compute Security group
-resource "openstack_compute_secgroup_v2" "terraform_ssh_ping" {
-  name = "terraform_ssh_ping"
-  description = "Security group with SSH and PING open to 0.0.0.0/0"
-
-  #ssh rule
-  rule{
-    ip_protocol = "tcp"
-    from_port  =  "22"
-    to_port    =  "22"
-    cidr       = "0.0.0.0/0"
-  }
-  rule {
-    from_port   = -1
-    to_port     = -1
-    ip_protocol = "icmp"
-    cidr        = "0.0.0.0/0"
-  }
-
-}
-
-# Create a Netowrking Security group
-resource "openstack_networking_secgroup_v2" "terraform_tcp_1" {
-  name        = "terraform_tcp_1"
-  description = "Security group with TCP open to 0.0.0.0/0"
-}
-
-# Allow HTTP (port 80) traffic
-resource "openstack_networking_secgroup_rule_v2" "http_rule" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 80
-  port_range_max    = 80
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_tcp_1.id}"
-}
-
-# Allow HTTPS (port 443) traffic
-resource "openstack_networking_secgroup_rule_v2" "https_rule" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 443
-  port_range_max    = 443
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_tcp_1.id}"
-}
-
-# Allow Service (port 8080) traffic
-resource "openstack_networking_secgroup_rule_v2" "service_rule" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = 8080
-  port_range_max    = 8080
-  remote_ip_prefix  = "0.0.0.0/0"
-  security_group_id = "${openstack_networking_secgroup_v2.terraform_tcp_1.id}"
-}
-
-```
-
-#### :simple-terraform: `instances.tf`
-
-```bash
-################
-# Instance OS
-################
-
-# create each Ubuntu20 instance
-resource "openstack_compute_instance_v2" "Ubuntu20" {
-  name = "container_camp_Ubuntu20_${count.index}"
-  # ID of Featured-Ubuntu20
-  image_name  = var.image_name
-  # flavor_id is the size of the VM 
-  # https://docs.jetstream-cloud.org/general/vmsizes/ 
-  flavor_name  = "m3.tiny"
-  # this public key is set above in security section
-  key_pair  = var.public_key
-  security_groups   = ["terraform_ssh_ping", "default"]
-  count     = var.vm_number
-  metadata = {
-    terraform_controlled = "yes"
-  }
-  network {
-    name = var.network_name
-  }
-  #depends_on = [openstack_networking_network_v2.terraform_network]
-
-}
-# creating floating ips from the public ip pool
-resource "openstack_networking_floatingip_v2" "terraform_floatip_ubuntu20" {
-  pool = "public"
-    count     = var.vm_number
-}
-
-# assign floating ip to each Ubuntu20 VM
-resource "openstack_compute_floatingip_associate_v2" "terraform_floatip_ubuntu20" {
-  floating_ip = "${openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[count.index].address}"
-  instance_id = "${openstack_compute_instance_v2.Ubuntu20[count.index].id}"
-    count     = var.vm_number
-}
-```
-
-#### :simple-terraform: `output.tf`
-
-```bash
-################
-#Output
-################
-
-output "floating_ip_ubuntu20" {
-  value = openstack_networking_floatingip_v2.terraform_floatip_ubuntu20.*.address
-  description = "Public IP for Ubuntu 20"
-}
-```
 
 #### :simple-terraform: `terraform.tfvars`
 
@@ -546,27 +190,6 @@ output "floating_ip_ubuntu20" {
  The file should contain key-value pairs, where the key is the variable name and the value is the corresponding variable value. 
  
  The syntax for defining variables in the `terraform.tfvars` file can be either HCL or JSON.
-
-Add your OpenStack credentials and other required information to `terraform.tfvars`:
-
-In HCL:
-
-```bash
-openstack_user_name   = "your-openstack-username"
-openstack_password    = "your-openstack-password"
-openstack_tenant_name = "your-openstack-tenant-name"
-openstack_auth_url    = "your-openstack-auth-url"         
-```
-
-In JSON:
-```json
-{
-  "openstack_user_name": "your-openstack-username",
-  "openstack_password": "your-openstack-password",
-  "openstack_tenant_name": "your-openstack-tenant-name",
-  "openstack_auth_url": "your-openstack-auth-url"
-}         
-```
 
 When you run `terraform apply`, Terraform will automatically load the values from the `terraform.tfvars` file if it exists in the working directory. 
 
@@ -582,7 +205,7 @@ Variables can also be passed directly into the terraform command-line using the 
 
 When `terraform apply` are executed, Terraform generates some new project files, notably
 
-`.terraform/` - this directory will contain the `terraform-provider-openstack_version` and a `README.md`, `LICENCE`, and `CHANGELOG.md` 
+`.terraform/` - this directory will contain the `terraform-provider-AWS_version` and a `README.md`, `LICENCE`, and `CHANGELOG.md` 
 
 `terraform.lock.hcl` 
 
@@ -607,8 +230,8 @@ terraform init
     Initializing the backend...
 
     Initializing provider plugins...
-    - Reusing previous version of terraform-provider-openstack/openstack from the dependency lock file
-    - Using previously-installed terraform-provider-openstack/openstack v1.51.1
+    - Reusing previous version of terraform-provider-AWS/AWS from the dependency lock file
+    - Using previously-installed terraform-provider-AWS/AWS v1.51.1
 
     Terraform has been successfully initialized!
 
@@ -651,16 +274,16 @@ terraform apply
 
     Terraform will perform the following actions:
 
-      # openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0] will be created
-      + resource "openstack_compute_floatingip_associate_v2" "terraform_floatip_ubuntu20" {
+      # AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0] will be created
+      + resource "AWS_compute_floatingip_associate_v2" "terraform_floatip_ubuntu20" {
           + floating_ip = (known after apply)
           + id          = (known after apply)
           + instance_id = (known after apply)
           + region      = (known after apply)
         }
 
-      # openstack_compute_instance_v2.Ubuntu20[0] will be created
-      + resource "openstack_compute_instance_v2" "Ubuntu20" {
+      # AWS_compute_instance_v2.Ubuntu20[0] will be created
+      + resource "AWS_compute_instance_v2" "Ubuntu20" {
           + access_ip_v4        = (known after apply)
           + access_ip_v6        = (known after apply)
           + all_metadata        = (known after apply)
@@ -699,8 +322,8 @@ terraform apply
             }
         }
 
-      # openstack_compute_secgroup_v2.terraform_ssh_ping will be created
-      + resource "openstack_compute_secgroup_v2" "terraform_ssh_ping" {
+      # AWS_compute_secgroup_v2.terraform_ssh_ping will be created
+      + resource "AWS_compute_secgroup_v2" "terraform_ssh_ping" {
           + description = "Security group with SSH and PING open to 0.0.0.0/0"
           + id          = (known after apply)
           + name        = "terraform_ssh_ping"
@@ -724,8 +347,8 @@ terraform apply
             }
         }
 
-      # openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0] will be created
-      + resource "openstack_networking_floatingip_v2" "terraform_floatip_ubuntu20" {
+      # AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0] will be created
+      + resource "AWS_networking_floatingip_v2" "terraform_floatip_ubuntu20" {
           + address    = (known after apply)
           + all_tags   = (known after apply)
           + dns_domain = (known after apply)
@@ -739,8 +362,8 @@ terraform apply
           + tenant_id  = (known after apply)
         }
 
-      # openstack_networking_secgroup_rule_v2.http_rule will be created
-      + resource "openstack_networking_secgroup_rule_v2" "http_rule" {
+      # AWS_networking_secgroup_rule_v2.http_rule will be created
+      + resource "AWS_networking_secgroup_rule_v2" "http_rule" {
           + direction         = "ingress"
           + ethertype         = "IPv4"
           + id                = (known after apply)
@@ -754,8 +377,8 @@ terraform apply
           + tenant_id         = (known after apply)
         }
 
-      # openstack_networking_secgroup_rule_v2.https_rule will be created
-      + resource "openstack_networking_secgroup_rule_v2" "https_rule" {
+      # AWS_networking_secgroup_rule_v2.https_rule will be created
+      + resource "AWS_networking_secgroup_rule_v2" "https_rule" {
           + direction         = "ingress"
           + ethertype         = "IPv4"
           + id                = (known after apply)
@@ -769,8 +392,8 @@ terraform apply
           + tenant_id         = (known after apply)
         }
 
-      # openstack_networking_secgroup_rule_v2.service_rule will be created
-      + resource "openstack_networking_secgroup_rule_v2" "service_rule" {
+      # AWS_networking_secgroup_rule_v2.service_rule will be created
+      + resource "AWS_networking_secgroup_rule_v2" "service_rule" {
           + direction         = "ingress"
           + ethertype         = "IPv4"
           + id                = (known after apply)
@@ -784,8 +407,8 @@ terraform apply
           + tenant_id         = (known after apply)
         }
 
-      # openstack_networking_secgroup_v2.terraform_tcp_1 will be created
-      + resource "openstack_networking_secgroup_v2" "terraform_tcp_1" {
+      # AWS_networking_secgroup_v2.terraform_tcp_1 will be created
+      + resource "AWS_networking_secgroup_v2" "terraform_tcp_1" {
           + all_tags    = (known after apply)
           + description = "Security group with TCP open to 0.0.0.0/0"
           + id          = (known after apply)
@@ -818,23 +441,23 @@ You should be prompted
     
     ```bash
 
-    openstack_networking_secgroup_v2.terraform_tcp_1: Creating...
-    openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Creating...
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Creating...
-    openstack_compute_instance_v2.Ubuntu20[0]: Creating...
-    openstack_networking_secgroup_v2.terraform_tcp_1: Creation complete after 1s [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
-    openstack_networking_secgroup_rule_v2.service_rule: Creating...
-    openstack_networking_secgroup_rule_v2.https_rule: Creating...
-    openstack_networking_secgroup_rule_v2.http_rule: Creating...
-    openstack_networking_secgroup_rule_v2.http_rule: Creation complete after 1s [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
-    openstack_networking_secgroup_rule_v2.service_rule: Creation complete after 2s [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
-    openstack_networking_secgroup_rule_v2.https_rule: Creation complete after 2s [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Creation complete after 4s [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
-    openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Creation complete after 7s [id=6af630bc-9c16-450c-b16f-0483294d8d75]
-    openstack_compute_instance_v2.Ubuntu20[0]: Still creating... [10s elapsed]
-    openstack_compute_instance_v2.Ubuntu20[0]: Creation complete after 15s [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
-    openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Creating...
-    openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Creation complete after 2s [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
+    AWS_networking_secgroup_v2.terraform_tcp_1: Creating...
+    AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Creating...
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Creating...
+    AWS_compute_instance_v2.Ubuntu20[0]: Creating...
+    AWS_networking_secgroup_v2.terraform_tcp_1: Creation complete after 1s [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
+    AWS_networking_secgroup_rule_v2.service_rule: Creating...
+    AWS_networking_secgroup_rule_v2.https_rule: Creating...
+    AWS_networking_secgroup_rule_v2.http_rule: Creating...
+    AWS_networking_secgroup_rule_v2.http_rule: Creation complete after 1s [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
+    AWS_networking_secgroup_rule_v2.service_rule: Creation complete after 2s [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
+    AWS_networking_secgroup_rule_v2.https_rule: Creation complete after 2s [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Creation complete after 4s [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
+    AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Creation complete after 7s [id=6af630bc-9c16-450c-b16f-0483294d8d75]
+    AWS_compute_instance_v2.Ubuntu20[0]: Still creating... [10s elapsed]
+    AWS_compute_instance_v2.Ubuntu20[0]: Creation complete after 15s [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
+    AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Creating...
+    AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Creation complete after 2s [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
 
     Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
@@ -896,14 +519,14 @@ terraform destroy
 ??? success "Expected Response"
 
     ```bash
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Refreshing state... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
-    openstack_compute_instance_v2.Ubuntu20[0]: Refreshing state... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
-    openstack_networking_secgroup_v2.terraform_tcp_1: Refreshing state... [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
-    openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Refreshing state... [id=6af630bc-9c16-450c-b16f-0483294d8d75]
-    openstack_networking_secgroup_rule_v2.service_rule: Refreshing state... [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
-    openstack_networking_secgroup_rule_v2.https_rule: Refreshing state... [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
-    openstack_networking_secgroup_rule_v2.http_rule: Refreshing state... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
-    openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Refreshing state... [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Refreshing state... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
+    AWS_compute_instance_v2.Ubuntu20[0]: Refreshing state... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
+    AWS_networking_secgroup_v2.terraform_tcp_1: Refreshing state... [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
+    AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Refreshing state... [id=6af630bc-9c16-450c-b16f-0483294d8d75]
+    AWS_networking_secgroup_rule_v2.service_rule: Refreshing state... [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
+    AWS_networking_secgroup_rule_v2.https_rule: Refreshing state... [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
+    AWS_networking_secgroup_rule_v2.http_rule: Refreshing state... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
+    AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Refreshing state... [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
 
     Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
     symbols:
@@ -911,16 +534,16 @@ terraform destroy
 
     Terraform will perform the following actions:
 
-      # openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0] will be destroyed
-      - resource "openstack_compute_floatingip_associate_v2" "terraform_floatip_ubuntu20" {
+      # AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0] will be destroyed
+      - resource "AWS_compute_floatingip_associate_v2" "terraform_floatip_ubuntu20" {
           - floating_ip = "149.165.168.217" -> null
           - id          = "149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/" -> null
           - instance_id = "afc53214-d2bd-45d5-b8b5-b6886976df8c" -> null
           - region      = "IU" -> null
         }
 
-      # openstack_compute_instance_v2.Ubuntu20[0] will be destroyed
-      - resource "openstack_compute_instance_v2" "Ubuntu20" {
+      # AWS_compute_instance_v2.Ubuntu20[0] will be destroyed
+      - resource "AWS_compute_instance_v2" "Ubuntu20" {
           - access_ip_v4        = "10.0.24.205" -> null
           - all_metadata        = {
               - "terraform_controlled" = "yes"
@@ -958,8 +581,8 @@ terraform destroy
             }
         }
 
-      # openstack_compute_secgroup_v2.terraform_ssh_ping will be destroyed
-      - resource "openstack_compute_secgroup_v2" "terraform_ssh_ping" {
+      # AWS_compute_secgroup_v2.terraform_ssh_ping will be destroyed
+      - resource "AWS_compute_secgroup_v2" "terraform_ssh_ping" {
           - description = "Security group with SSH and PING open to 0.0.0.0/0" -> null
           - id          = "1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f" -> null
           - name        = "terraform_ssh_ping" -> null
@@ -983,8 +606,8 @@ terraform destroy
             }
         }
 
-      # openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0] will be destroyed
-      - resource "openstack_networking_floatingip_v2" "terraform_floatip_ubuntu20" {
+      # AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0] will be destroyed
+      - resource "AWS_networking_floatingip_v2" "terraform_floatip_ubuntu20" {
           - address   = "149.165.168.217" -> null
           - all_tags  = [] -> null
           - fixed_ip  = "10.0.24.205" -> null
@@ -996,8 +619,8 @@ terraform destroy
           - tenant_id = "db016a81886b4f918705e5dee2b24298" -> null
         }
 
-      # openstack_networking_secgroup_rule_v2.http_rule will be destroyed
-      - resource "openstack_networking_secgroup_rule_v2" "http_rule" {
+      # AWS_networking_secgroup_rule_v2.http_rule will be destroyed
+      - resource "AWS_networking_secgroup_rule_v2" "http_rule" {
           - direction         = "ingress" -> null
           - ethertype         = "IPv4" -> null
           - id                = "2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41" -> null
@@ -1010,8 +633,8 @@ terraform destroy
           - tenant_id         = "db016a81886b4f918705e5dee2b24298" -> null
         }
 
-      # openstack_networking_secgroup_rule_v2.https_rule will be destroyed
-      - resource "openstack_networking_secgroup_rule_v2" "https_rule" {
+      # AWS_networking_secgroup_rule_v2.https_rule will be destroyed
+      - resource "AWS_networking_secgroup_rule_v2" "https_rule" {
           - direction         = "ingress" -> null
           - ethertype         = "IPv4" -> null
           - id                = "20225b99-fd2a-4a05-912c-61056fa21e3b" -> null
@@ -1024,8 +647,8 @@ terraform destroy
           - tenant_id         = "db016a81886b4f918705e5dee2b24298" -> null
         }
 
-      # openstack_networking_secgroup_rule_v2.service_rule will be destroyed
-      - resource "openstack_networking_secgroup_rule_v2" "service_rule" {
+      # AWS_networking_secgroup_rule_v2.service_rule will be destroyed
+      - resource "AWS_networking_secgroup_rule_v2" "service_rule" {
           - direction         = "ingress" -> null
           - ethertype         = "IPv4" -> null
           - id                = "ead48696-4aae-436f-a12b-8bf3ceac253a" -> null
@@ -1038,8 +661,8 @@ terraform destroy
           - tenant_id         = "db016a81886b4f918705e5dee2b24298" -> null
         }
 
-      # openstack_networking_secgroup_v2.terraform_tcp_1 will be destroyed
-      - resource "openstack_networking_secgroup_v2" "terraform_tcp_1" {
+      # AWS_networking_secgroup_v2.terraform_tcp_1 will be destroyed
+      - resource "AWS_networking_secgroup_v2" "terraform_tcp_1" {
           - all_tags    = [] -> null
           - description = "Security group with TCP open to 0.0.0.0/0" -> null
           - id          = "4f0ab1d5-ca29-4f60-9a65-c38d2380719c" -> null
@@ -1067,26 +690,26 @@ terraform destroy
 ??? success "Expected Response after choosing 'yes' "
 
     ```bash
-    openstack_networking_secgroup_rule_v2.service_rule: Destroying... [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
-    openstack_networking_secgroup_rule_v2.https_rule: Destroying... [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Destroying... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
-    openstack_networking_secgroup_rule_v2.http_rule: Destroying... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
-    openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Destroying... [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
-    openstack_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Destruction complete after 3s
-    openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Destroying... [id=6af630bc-9c16-450c-b16f-0483294d8d75]
-    openstack_compute_instance_v2.Ubuntu20[0]: Destroying... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
-    openstack_networking_secgroup_rule_v2.https_rule: Destruction complete after 6s
-    openstack_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Destruction complete after 6s
-    openstack_networking_secgroup_rule_v2.service_rule: Still destroying... [id=ead48696-4aae-436f-a12b-8bf3ceac253a, 10s elapsed]
-    openstack_networking_secgroup_rule_v2.http_rule: Still destroying... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41, 10s elapsed]
-    openstack_networking_secgroup_rule_v2.service_rule: Destruction complete after 11s
-    openstack_compute_instance_v2.Ubuntu20[0]: Still destroying... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c, 10s elapsed]
-    openstack_compute_instance_v2.Ubuntu20[0]: Destruction complete after 10s
-    openstack_networking_secgroup_rule_v2.http_rule: Destruction complete after 16s
-    openstack_networking_secgroup_v2.terraform_tcp_1: Destroying... [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
-    openstack_networking_secgroup_v2.terraform_tcp_1: Destruction complete after 9s
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Destroying... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
-    openstack_compute_secgroup_v2.terraform_ssh_ping: Destruction complete after 2s
+    AWS_networking_secgroup_rule_v2.service_rule: Destroying... [id=ead48696-4aae-436f-a12b-8bf3ceac253a]
+    AWS_networking_secgroup_rule_v2.https_rule: Destroying... [id=20225b99-fd2a-4a05-912c-61056fa21e3b]
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Destroying... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
+    AWS_networking_secgroup_rule_v2.http_rule: Destroying... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41]
+    AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Destroying... [id=149.165.168.217/afc53214-d2bd-45d5-b8b5-b6886976df8c/]
+    AWS_compute_floatingip_associate_v2.terraform_floatip_ubuntu20[0]: Destruction complete after 3s
+    AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Destroying... [id=6af630bc-9c16-450c-b16f-0483294d8d75]
+    AWS_compute_instance_v2.Ubuntu20[0]: Destroying... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c]
+    AWS_networking_secgroup_rule_v2.https_rule: Destruction complete after 6s
+    AWS_networking_floatingip_v2.terraform_floatip_ubuntu20[0]: Destruction complete after 6s
+    AWS_networking_secgroup_rule_v2.service_rule: Still destroying... [id=ead48696-4aae-436f-a12b-8bf3ceac253a, 10s elapsed]
+    AWS_networking_secgroup_rule_v2.http_rule: Still destroying... [id=2d7d6f4c-a3db-48ca-996a-1fe0b18f4f41, 10s elapsed]
+    AWS_networking_secgroup_rule_v2.service_rule: Destruction complete after 11s
+    AWS_compute_instance_v2.Ubuntu20[0]: Still destroying... [id=afc53214-d2bd-45d5-b8b5-b6886976df8c, 10s elapsed]
+    AWS_compute_instance_v2.Ubuntu20[0]: Destruction complete after 10s
+    AWS_networking_secgroup_rule_v2.http_rule: Destruction complete after 16s
+    AWS_networking_secgroup_v2.terraform_tcp_1: Destroying... [id=4f0ab1d5-ca29-4f60-9a65-c38d2380719c]
+    AWS_networking_secgroup_v2.terraform_tcp_1: Destruction complete after 9s
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Destroying... [id=1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f]
+    AWS_compute_secgroup_v2.terraform_ssh_ping: Destruction complete after 2s
 
     Destroy complete! Resources: 8 destroyed.
     ```
@@ -1096,16 +719,16 @@ terraform destroy
 
 ??? failure "My deployment cannot authenticate to the provider"
 
-    Make sure that you run `source *-openrc.sh` to provide your OpenStack credentials. 
+    Make sure that you run `source *-openrc.sh` to provide your AWS credentials. 
 
-    Also make sure that you are using the correct `~/.ssh/id_rsa.pub` key and that it has been [injected to OpenStack](#create-an-ssh-keypair-with-openstack)
+    Also make sure that you are using the correct `~/.ssh/id_rsa.pub` key and that it has been [injected to AWS](#create-an-ssh-keypair-with-AWS)
 
 ??? failure "`terraform destroy` did not complete" 
 
     there was an error like:
 
     ```bash
-    Error: Error deleting openstack_compute_secgroup_v2 1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f: Bad request with: [DELETE https://js2.jetstream-cloud.org:8774/v2.1/os-security-groups/1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f], error message: {"badRequest": {"code": 400, "message": "Security Group 1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f in use.\nNeutron server returns request_ids: ['req-e3d1548c-9d4c-4445-9642-952977a44853']"}}
+    Error: Error deleting AWS_compute_secgroup_v2 1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f: Bad request with: [DELETE https://js2.jetstream-cloud.org:8774/v2.1/os-security-groups/1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f], error message: {"badRequest": {"code": 400, "message": "Security Group 1af38fb4-1d41-4ac2-9c9f-91fc6bbaa72f in use.\nNeutron server returns request_ids: ['req-e3d1548c-9d4c-4445-9642-952977a44853']"}}
     ```
 
     Try running `terraform destroy` one more time, occasionally Horizon times out while destroying deployments.

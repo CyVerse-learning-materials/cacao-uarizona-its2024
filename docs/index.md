@@ -10,13 +10,13 @@ Welcome to our CACAO Workshop for the University of Arizona IT Summit 2024
 
 | Time (MST/AZ)| Activity | Instructor | Notes | 
 |-----------|----------|------------|-------|
-| 1:00p | Introductions | All | |
-| 1:15p | Getting Setup | All | |
+| 1:00p | [Introductions (slides)](https://docs.google.com/presentation/d/1On1hcyudEOnyihstYmC7UByk-jzK7E17PYgZGjpszJs/edit?usp=sharing){:target="_blank"} | All | |
+| 1:15p | [Getting Setup (slides)](https://docs.google.com/presentation/d/1On1hcyudEOnyihstYmC7UByk-jzK7E17PYgZGjpszJs/edit#slide=id.g2ef04973be4_0_0){:target="_blank"} | All | |
 | 1:30p | [Introduction to Terraform :material-github:](../cacao/terra) | Frady | |
-| 2:00p | [Importing a Terraform template into CACAO :material-docker:](../cacao/cacao_terra) | Skidmore | |
-| 2:10p | Break | |
-| 2:20p | [Using CACAO :material-docker:](./cacao/cacao)  | Xu | |
-| 2:40p | [CACAO Use Cases :material-docker:](../cacao/cacao) | Cosi | | 
+| 2:00p | Break | |
+| 2:10p | [Using CACAO :material-docker:](./cacao/cacao)  | Xu | |
+| 2:30p | [Importing a Terraform template into CACAO :material-docker:](../cacao/cacao_terra) | Xu | |
+| 2:40p | [CACAO Use Cases (slide) :material-docker:](https://docs.google.com/presentation/d/1On1hcyudEOnyihstYmC7UByk-jzK7E17PYgZGjpszJs/edit#slide=id.g2f00596e383_0_783){:target="_blank"} | Cosi & Skidmore | | 
 | 2:45p | Conclusion: Comments and questions | All | |
 
 !!! Success "Learning Objectives"
