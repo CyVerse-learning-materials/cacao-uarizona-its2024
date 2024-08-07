@@ -20,6 +20,8 @@ mkdocstrings-crystal
 mkdocstrings-python-legacy
 #pygments>=2.10,<2.12
 #pymdown-extensions<9.4
+mkdocs-open-in-new-tab
+
 
 # Requirements for core
 jinja2>=3.0.2

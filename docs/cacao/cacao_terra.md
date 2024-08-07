@@ -13,7 +13,7 @@ By the end of this tutorial, you will have imported a terraform template into CA
 * Basic understanding of Terraform, git, and the command line.
 * An OpenStack environment with access to the API (if you need to validate any terraform changes).
 * Terraform installed on your local machine or VM server (if you need to validate any terraform changes).
-* An SSH key pair to access the VM server running Terraform (if you need to validate any terraform changes).
+* An SSH key pair to access the VM server running Terraform (if you need to validate any terraform changes). Steps to create an SSH key pair can be found [here](../../getting_started/setup/#creating-an-ssh-key-pair).
 
 ## CyVerse CACAO Browser UI
 
