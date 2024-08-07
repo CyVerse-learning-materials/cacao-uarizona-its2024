@@ -124,7 +124,7 @@ Here are the values to enter for each:
 - `<source url>`: `https://github.com/cyverse/cacao-example-templates.git`
 - `<template name>`: "<your student name>-hello-world" (e.g. student0001-hello-world)
 - `<git branch>`: `main`
-- `<path to template>`: `terraform-aws-itsummit2024`
+- `<path to template>`: `terraform-aws-itsummit2024-cacao`
 
 !!!+ warn
     If you forked the template, you will need to use your forked url.
@@ -132,7 +132,7 @@ Here are the values to enter for each:
 Putting this all together, your command will look similar to this: 
 
 ```bash
-cacao template create git https://github.com/cyverse/cacao-example-templates.git  student0001-hello-world --branch main --path terraform-aws-itsummit2024
+cacao template create git https://github.com/cyverse/cacao-example-templates.git  student0001-hello-world --branch main --path terraform-aws-itsummit2024-cacao
 ```
 
 ???+ success "Expected Response"
