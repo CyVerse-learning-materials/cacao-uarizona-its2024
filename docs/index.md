@@ -12,11 +12,11 @@ Welcome to our CACAO Workshop for the University of Arizona IT Summit 2024
 |-----------|----------|------------|-------|
 | 1:00p | Introductions | All | |
 | 1:15p | Getting Setup | All | |
-| 1:30p | [Introduction to Terraform :material-github:](../cacao/terra.md) | Frady | |
-| 2:00p | [Importing a Terraform template into CACAO :material-docker:](../cacao/cacao_terra.md) | Skidmore | |
+| 1:30p | [Introduction to Terraform :material-github:](../cacao/terra) | Frady | |
+| 2:00p | [Importing a Terraform template into CACAO :material-docker:](../cacao/cacao_terra) | Skidmore | |
 | 2:10p | Break | |
-| 2:20p | [Using CACAO :material-docker:](./cacao/cacao.md)  | Xu | |
-| 2:40p | [CACAO Use Cases :material-docker:](../cacao/cacao.md) | Cosi | | 
+| 2:20p | [Using CACAO :material-docker:](./cacao/cacao)  | Xu | |
+| 2:40p | [CACAO Use Cases :material-docker:](../cacao/cacao) | Cosi | | 
 | 2:45p | Conclusion: Comments and questions | All | |
 
 !!! Success "Learning Objectives"
