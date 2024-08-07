@@ -30,7 +30,7 @@ This basic tutorial will guide you through setting up a Terraform project and de
 
 ## Prerequisites
 
-* Basic understanding of [:simple-AWS: AWS](https://aws.amazon.com/){target=_blank} and VMs
+* Basic understanding of [AWS](https://aws.amazon.com/){target=_blank} and VMs
 
 * [:simple-terraform: Terraform](https://developer.hashicorp.com/terraform/downloads){target=_blank} installed on your local machine or use a VM provided by the workshop
 
@@ -55,6 +55,16 @@ This basic tutorial will guide you through setting up a Terraform project and de
     **:material-play: Provision** - making changes to a VM including updating the operating system, installing software, adding configurations
 
     **:material-play: Terraform** - is an infrastructure as code tool that lets you build, change, and version cloud and on-prem resources safely and efficiently
+
+## Cloning the repository
+
+You can clone the repository with the code. We will use the `terraform-aws-itsummit2024` subdirectory for this exercise. You'll want to cd into that directory
+
+```bash
+git clone https://github.com/cyverse/cacao-example-templates.git
+cd cacao-example-templates
+cd terraform-aws-itsummit2024 # you want to cd into the directory without the '-cacao'
+```
 
 ## :simple-terraform: Terraform installation
 
