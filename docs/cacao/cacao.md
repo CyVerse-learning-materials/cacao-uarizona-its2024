@@ -1,6 +1,6 @@
 ## Log into CACAO (JS2)
 
-To start, you will need an ACCESS user account and have access to a project.
+To start, you will need an AWS secret and access key
 
 Go to [https://cacao.cyverse.ai](https://cacao.cyverse.ai){target=_blank} to log in to CACAO. You will be prompted to authenticate with CILogon.
 
@@ -27,6 +27,7 @@ Again, click on the "+ Add Credential" button and this time select "Public SSH K
 
 ![](../assets/cacao/cacao-add-ssh-key.png)
 
+### 
 
 ### Start a Deployment
 
