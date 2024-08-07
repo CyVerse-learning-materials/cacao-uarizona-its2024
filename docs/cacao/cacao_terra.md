@@ -24,7 +24,6 @@ The url for the CACAO site that we will use today is [https://cacao.cyverse.ai](
 Please login to verify that you have access to the CACAO test site.
 ![](../assets/cacao/cilogon-select-idp-ua.png)
 
-1. 
 ## Installation of the CyVerse CACAO CLI
 
 !!! Info
@@ -71,43 +70,43 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
 
 ### Login to CACAO CLI
 1. `cacao login`
-??? trip "What to do if you encounter a login issue"
-    Sometimes login using the command line will fail -- a typo happens, a copy-n-paste of a token happens, using the wrong api url happens, etc -- and you need to reset your login. To reset your login, you can use the following command:
+    ??? trip "What to do if you encounter a login issue"
+        Sometimes login using the command line will fail -- a typo happens, a copy-n-paste of a token happens, using the wrong api url happens, etc -- and you need to reset your login. To reset your login, you can use the following command:
 
-    `cacao logout`
-???+ success "Expected Response"
-    ```bash linenums="1" hl_lines="4"
-    Please provide address of Cacao API.
-    Format Should be: http://<hostname>:<port>	  or    <hostname>:<port> 
-    (Developers: this should match the value of API_DOMAIN in install/config.yaml followed by "/api", e.g. http://ca.cyverse.local/api)
-    Cacao API address (https://cacao.jetstream-cloud.org/api): 
-    ```
+        `cacao logout`
+    ???+ success "Expected Response"
+        ```bash linenums="1" hl_lines="4"
+        Please provide address of Cacao API.
+        Format Should be: http://<hostname>:<port>	  or    <hostname>:<port> 
+        (Developers: this should match the value of API_DOMAIN in install/config.yaml followed by "/api", e.g. http://ca.cyverse.local/api)
+        Cacao API address (https://cacao.jetstream-cloud.org/api): 
+        ```
 2. Enter the CACAO API url: `https://cacao.cyverse.ai/api`
-???+ success "Expected Response"
-    ```bash linenums="4" hl_lines="2"
-    Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
-    You will login with a CACAO API token. You need to create the token beforehand
-    to use this option (e.g. create it in the credential page in Web UI).
-    Enter CACAO API token:
-    ```
+    ???+ success "Expected Response"
+        ```bash linenums="4" hl_lines="2"
+        Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
+        You will login with a CACAO API token. You need to create the token beforehand
+        to use this option (e.g. create it in the credential page in Web UI).
+        Enter CACAO API token:
+        ```
 3. In your browser, go to the [credential page](https://cacao.cyverse.ai/credentials), or click on the ":material-key: Credentials" button on the lefthand menu bar.
 
 4. Create an API Token credential by click on the `Add Credential` button and select `API Token`. Name your API token and click `CREATE TOKEN`.
 
-![](../assets/cacao/cacao-add-api-token.png)
+    ![](../assets/cacao/cacao-add-api-token.png)
 
 5. Copy the created API Token.
 
-![](../assets/cacao/cacao-api-token-created.png)
+    ![](../assets/cacao/cacao-api-token-created.png)
 
 6. Paste the API Token into terminal from Step **2** and hit enter.
-???+ success "Expected Response"
-    ```bash linenums="4" hl_lines="2"
-    Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
-    You will login with a CACAO API token. You need to create the token beforehand
-    to use this option (e.g. create it in the credential page in Web UI).
-    Enter CACAO API token: cptoken_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    ```
+    ???+ success "Expected Response"
+        ```bash linenums="4" hl_lines="2"
+        Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
+        You will login with a CACAO API token. You need to create the token beforehand
+        to use this option (e.g. create it in the credential page in Web UI).
+        Enter CACAO API token: cptoken_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        ```
 
 7. To test a successful login, you can execute a cacao command, such as: `cacao user get --self`
 
