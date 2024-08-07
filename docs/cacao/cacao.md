@@ -1,4 +1,4 @@
-## Log into CACAO (JS2)
+## Log into CACAO (University of Arizona/AWS)
 
 To start, you will need an AWS secret and access key
 
@@ -19,21 +19,44 @@ Click on Credentials on the lefthand menu bar. From the Credentials page, click 
 
 Once your credential is added, it should show up on the Credentials page.
 
-### Add your SSH Key
+### Adding an SSH Key
 
-Next, you will need to add a public SSH key. This will allow you to access your VMs via SSH. If you already have an SSH key, you can use that. Otherwise, you can generate a new one.
+For this workshop we will not need to add an SSH Key because we will use web shell; however if you plan to use CACAO for your own work in the future, you would want to add at least one SSH Key.
 
-Again, click on the "+ Add Credential" button and this time select "Public SSH Key". Enter a name and paste in your public key.
+This will allow you to access your VMs via SSH. If you already have an SSH key, you can use that. Otherwise, you can generate a new one.
+
+To add an SSH Key (outside of the workshopp), click on the "+ Add Credential" button and this time select "Public SSH Key". Enter a name and paste in your public key.
 
 ![](../assets/cacao/cacao-add-ssh-key.png)
 
-### 
+### Browse the Template Catalog
+
+Click on the [:material-widgets: Templates](https://cacao.cyverse.ai/templates) tab on the lefthand menu bar. You will see a list of templates available in CACAO.
+
+A template is a recipe to deploy cloud resources to create a portal, a software stack, or anything that the template author envisions.
+
+The following information is available in the template catalog:
+
+* Title
+* Description
+* Tags
+* The CACAO user who imported the template
+* Last updated
+* Declared author of the template (metadata pulled from the git repository)
+
+Click on Learn More button on the template titled `aws-single-image` to get more details.
+
+The details page will have additional information, including
+
+* Declared author contact information (if provided)
+* Parameters
+* Source code links
 
 ### Start a Deployment
 
 Next, we will start a deployment onto AWS.
 
-Click on the [:material-widgets: Templates](https://cacao.cyverse.ai/templates) tab on the lefthand menu bar. You will see a list of templates available in CACAO. Click on the ":material-rocket-launch: Deploy" button of the "aws-single-image" template.
+Click on the ":material-rocket-launch: Deploy" button of the "aws-single-image" template.
 
 You will see a box pop up where you can select the cloud and cloud credential to use for the deployment.
 ![](../assets/cacao/cacao-deployment-wizard-cred-aws.png)
@@ -49,4 +72,8 @@ Once you have submitted your deployment, you can see it on the Deployments page.
 
 ![](../assets/cacao/cacao-aws-deployment.png)
 
-From here, you can click on the icons on the right to access a Web Shell or a Web Desktop (for certain images). You can also pause, shelve, or delete the deployment from here. Try opening the Web Shell, which will bring you to a command line inside your running VM.
+From here, you can click on the icons on the right to access a Web Shell. 
+
+### Delete Your Deployment
+
+Click on the Delete icon in either the Deployment List or Deployment Details
