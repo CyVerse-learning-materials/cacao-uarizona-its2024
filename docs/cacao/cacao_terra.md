@@ -81,6 +81,7 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
         (Developers: this should match the value of API_DOMAIN in install/config.yaml followed by "/api", e.g. http://ca.cyverse.local/api)
         Cacao API address (https://cacao.jetstream-cloud.org/api): 
         ```
+
 2. Enter the CACAO API url: `https://cacao.cyverse.ai/api`
     ???+ success "Expected Response"
         ```bash linenums="4" hl_lines="2"
@@ -89,6 +90,7 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
         to use this option (e.g. create it in the credential page in Web UI).
         Enter CACAO API token:
         ```
+
 3. In your browser, go to the [credential page](https://cacao.cyverse.ai/credentials), or click on the ":material-key: Credentials" button on the lefthand menu bar.
 
 4. Create an API Token credential by click on the `Add Credential` button and select `API Token`. Name your API token and click `CREATE TOKEN`.
