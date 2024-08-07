@@ -21,8 +21,8 @@ nav:
     - 'Workshop Setup': getting_started/setup.md
   - 'CACAO':
     - 'Introduction to Terraform': cacao/terra.md
-    - 'Importing a Terraform Template into CACAO': cacao/cacao_terra.md
     - 'CyVerse CACAO Interface': cacao/cacao.md
+    - 'Importing a Terraform Template into CACAO': cacao/cacao_terra.md
   - 'Useful Resources':
     - 'VSCode': resources/vscode.md
     - 'Docker': resources/docker.md
@@ -146,3 +146,4 @@ plugins:
     - mkdocs-jupyter:
           include_source: True
           ignore_h1_titles: True
+    - open-in-new-tab
