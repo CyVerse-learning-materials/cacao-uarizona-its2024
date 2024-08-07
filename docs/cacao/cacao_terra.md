@@ -70,6 +70,7 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
 
 ### Login to CACAO CLI
 1. `cacao login`
+
     ??? trip "What to do if you encounter a login issue"
         Sometimes login using the command line will fail -- a typo happens, a copy-n-paste of a token happens, using the wrong api url happens, etc -- and you need to reset your login. To reset your login, you can use the following command:
 
@@ -83,8 +84,9 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
         ```
 
 2. Enter the CACAO API url: `https://cacao.cyverse.ai/api`
+
     ???+ success "Expected Response"
-        ```bash linenums="4" hl_lines="2"
+        ```bash linenums="4" hl_lines="1 4"
         Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
         You will login with a CACAO API token. You need to create the token beforehand
         to use this option (e.g. create it in the credential page in Web UI).
@@ -102,8 +104,9 @@ Details about the metadata and ui schemas can be found here: [https://docs.jetst
     ![](../assets/cacao/cacao-api-token-created.png)
 
 6. Paste the API Token into terminal from Step **2** and hit enter.
+
     ???+ success "Expected Response"
-        ```bash linenums="4" hl_lines="2"
+        ```bash linenums="4" hl_lines="4"
         Cacao API address (https://cacao.jetstream-cloud.org/api): https://cacao.cyverse.ai/api
         You will login with a CACAO API token. You need to create the token beforehand
         to use this option (e.g. create it in the credential page in Web UI).
