@@ -26,7 +26,7 @@ nav:
   - 'Useful Resources':
     - 'VSCode': resources/vscode.md
     - 'Docker': resources/docker.md
-    - 'Singularity': resources/singularity.md
+    #- 'Singularity': resources/singularity.md
     - 'Kubernetes': resources/k8s.md
     - 'Camp Discussion and Notes': resources/post.md
 
